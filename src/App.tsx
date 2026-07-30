@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { PermissionProvider } from '@/core/authorization/PermissionContext';
 import { OrganizationProvider } from '@/features/admin/organization/context/OrganizationContext';
 import { FeatureFlagProvider } from '@/core/feature-flags/FeatureFlagContext';
+import { DensityProvider } from '@/core/density/DensityContext';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { Login } from '@/pages/auth/Login';
 import { MfaVerification } from '@/pages/auth/MfaVerification';
@@ -113,10 +114,11 @@ function App() {
         <PermissionProvider>
           <OrganizationProvider>
             <FeatureFlagProvider>
-              <BrowserRouter>
-                <ErrorBoundary>
-                  <Suspense fallback={<PageLoadingFallback />}>
-                    <Routes>
+              <DensityProvider>
+                <BrowserRouter>
+                  <ErrorBoundary>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Routes>
                       {/* Public Auth Routes */}
                       <Route path="/login" element={<Login />} />
                       <Route path="/login/mfa" element={<MfaVerification />} />
@@ -189,7 +191,8 @@ function App() {
                   </Suspense>
                 </ErrorBoundary>
               </BrowserRouter>
-            </FeatureFlagProvider>
+            </DensityProvider>
+          </FeatureFlagProvider>
           </OrganizationProvider>
         </PermissionProvider>
       </AuthProvider>

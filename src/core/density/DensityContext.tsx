@@ -9,7 +9,14 @@ interface DensityContextType {
   textSizeClass: string;
 }
 
-const DensityContext = createContext<DensityContextType | undefined>(undefined);
+const defaultDensityContext: DensityContextType = {
+  density: 'comfortable',
+  setDensity: () => {},
+  paddingClass: 'py-3 px-4 gap-3',
+  textSizeClass: 'text-sm leading-normal',
+};
+
+const DensityContext = createContext<DensityContextType>(defaultDensityContext);
 
 export const DensityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [density, setDensity] = useState<DensityMode>('comfortable');
@@ -54,8 +61,5 @@ export const DensityProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
 export const useDensity = () => {
   const context = useContext(DensityContext);
-  if (!context) {
-    throw new Error('useDensity must be used within a DensityProvider');
-  }
-  return context;
+  return context || defaultDensityContext;
 };
