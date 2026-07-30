@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Activity, Lock, Mail, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import { Input } from '@/shared/components/forms/Input';
 
 export function Login() {
   const [email, setEmail] = useState('admin@trotos.com');
@@ -70,7 +70,7 @@ export function Login() {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 placeholder="name@company.com"
                 className="pl-9"
               />
@@ -95,7 +95,7 @@ export function Login() {
                 type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
                 className="pl-9 pr-10"
               />

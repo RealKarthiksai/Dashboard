@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import { Input } from '@/shared/components/forms/Input';
 
 export function MfaVerification() {
   const [code, setCode] = useState('123456');
@@ -69,7 +69,7 @@ export function MfaVerification() {
               type="text"
               maxLength={6}
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
               placeholder="123456"
               className="text-center tracking-[0.5em] text-lg font-mono font-bold"
               required

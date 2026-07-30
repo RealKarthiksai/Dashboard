@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { KeyRound, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import { Input } from '@/shared/components/forms/Input';
 
 export function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -60,7 +60,7 @@ export function ForgotPassword() {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 placeholder="name@company.com"
               />
             </div>

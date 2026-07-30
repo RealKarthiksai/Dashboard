@@ -1,49 +1,113 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #5B5CEB;
-  --color-primary-hover: #4C4DDC;
-  --color-primary-light: #EEF0FF;
+  /* --- Colors: Primary Brand Accent (TrotOS Blue-Purple Glow) --- */
+  --color-primary: #6366F1;
+  --color-primary-hover: #4F46E5;
+  --color-primary-light: rgba(99, 102, 241, 0.12);
+  --color-primary-glow: rgba(99, 102, 241, 0.25);
   
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-border: #E5E7EB;
+  /* --- Surface Hierarchy: Light Mode --- */
+  --color-level-0: #F8FAFC;
+  --color-level-1: #FFFFFF;
+  --color-level-2: #F1F5F9;
+  --color-level-3: #E2E8F0;
+  --color-level-4: #CBD5E1;
+
+  --color-background: var(--color-level-0);
+  --color-surface: var(--color-level-1);
+  --color-surface-hover: var(--color-level-2);
+  --color-border: #E2E8F0;
+  --color-border-hover: #CBD5E1;
   
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
-  --color-text-muted: #9CA3AF;
+  /* --- Colors: Typography --- */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #FFFFFF;
   
-  --color-success: #16A34A;
+  /* --- Colors: Semantic (Status/Feedback) --- */
+  --color-success: #10B981;
+  --color-success-light: rgba(16, 185, 129, 0.12);
   --color-warning: #F59E0B;
-  --color-danger: #DC2626;
-  --color-info: #0EA5E9;
+  --color-warning-light: rgba(245, 158, 11, 0.12);
+  --color-danger: #F43F5E;
+  --color-danger-light: rgba(244, 63, 94, 0.12);
+  --color-info: #06B6D4;
+  --color-info-light: rgba(6, 182, 212, 0.12);
   
-  --font-sans: "Inter Variable", system-ui, sans-serif;
+  /* --- Typography Scale & Line Heights --- */
+  --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
   
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-full: 999px;
+  /* --- Border Radius --- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
   
-  --shadow-level-1: 0 1px 2px rgba(15,23,42,0.05);
-  --shadow-level-2: 0 8px 24px rgba(15,23,42,0.08);
-  --shadow-level-3: 0 20px 48px rgba(15,23,42,0.12);
+  /* --- Shadows & Depth Elevation --- */
+  --shadow-level-1: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-level-2: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-level-3: 0 12px 32px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.35);
+  
+  /* --- Z-Index Scale --- */
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-dropdown: 40;
+  --z-sticky: 50;
+  --z-overlay: 60;
+  --z-modal: 70;
+  --z-popover: 80;
+  --z-toast: 90;
+  
+  /* --- Motion System: Standard Durations & Curves --- */
+  --animate-duration-hover: 100ms;
+  --animate-duration-selection: 180ms;
+  --animate-duration-modal: 240ms;
+  --animate-duration-sidebar: 250ms;
+  --animate-duration-charts: 300ms;
+  
+  --animate-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --animate-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-ease-modal: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
-  --color-background: #0F172A;
-  --color-surface: #1E293B;
-  --color-border: #334155;
+  /* --- 5-Tier Surface Depth Scale (Dark Mode) --- */
+  --color-level-0: #0F172A; /* App Background */
+  --color-level-1: #141E2F; /* Sidebar Container */
+  --color-level-2: #1A2436; /* Main Canvas Surface */
+  --color-level-3: #222D41; /* Panels / Cards */
+  --color-level-4: #2A3650; /* Interactive / Hover Elements */
+
+  --color-background: var(--color-level-0);
+  --color-surface: var(--color-level-2);
+  --color-surface-hover: var(--color-level-4);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.16);
   
+  /* --- Colors: Typography --- */
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
   --color-text-muted: #64748B;
+  --color-text-inverse: #0F172A;
   
-  --color-primary-light: #1E1B4B;
+  /* --- Colors: Semantic (Status/Feedback) --- */
+  --color-primary-light: rgba(99, 102, 241, 0.18);
+  --color-success-light: rgba(16, 185, 129, 0.18);
+  --color-warning-light: rgba(245, 158, 11, 0.18);
+  --color-danger-light: rgba(244, 63, 94, 0.18);
+  --color-info-light: rgba(6, 182, 212, 0.18);
   
-  --shadow-level-1: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-level-2: 0 8px 24px rgba(0,0,0,0.4);
-  --shadow-level-3: 0 20px 48px rgba(0,0,0,0.5);
+  /* --- Shadows & Elevation --- */
+  --shadow-level-1: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-level-2: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-level-3: 0 20px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.4);
 }
 
 @layer base {
@@ -52,6 +116,38 @@
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 150ms ease, color 150ms ease;
+    transition: background-color var(--animate-duration-sidebar) var(--animate-ease-in-out),
+                color var(--animate-duration-sidebar) var(--animate-ease-in-out);
   }
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Blueprint Grid Motifs */
+.telemetry-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.focus-ring {
+  @apply outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-[var(--color-background)] transition-shadow duration-100;
 }

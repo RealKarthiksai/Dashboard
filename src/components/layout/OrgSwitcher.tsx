@@ -1,21 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Building2, Check, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils/cn';
-
-export interface Organization {
-  id: string;
-  name: string;
-  type: string;
-}
-
-const MOCK_ORGS: Organization[] = [
-  { id: 'org_acme', name: 'Acme Corp', type: 'Enterprise Production' },
-  { id: 'org_demo', name: 'TrotOS Demo', type: 'Sandbox Environment' },
-  { id: 'org_retail', name: 'Retail Group', type: 'Regional Fleet' },
-];
+import { useOrganization } from '@/features/admin/organization/context/OrganizationContext';
 
 export function OrgSwitcher({ isCollapsed = false }: { isCollapsed?: boolean }) {
-  const [selectedOrg, setSelectedOrg] = useState<Organization>(MOCK_ORGS[0]);
+  const { currentOrg, availableOrgs, switchOrganization } = useOrganization();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,15 +31,15 @@ export function OrgSwitcher({ isCollapsed = false }: { isCollapsed?: boolean }) 
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-7 h-7 rounded-md bg-[var(--color-primary-light)] text-[var(--color-primary)] flex items-center justify-center flex-shrink-0 font-bold text-xs">
-            {selectedOrg.name.charAt(0)}
+            {currentOrg.name.charAt(0)}
           </div>
           {!isCollapsed && (
             <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold text-[var(--color-text-primary)] truncate leading-tight">
-                {selectedOrg.name}
+                {currentOrg.name}
               </p>
               <p className="text-[10px] text-[var(--color-text-muted)] truncate leading-tight">
-                {selectedOrg.type}
+                {currentOrg.type}
               </p>
             </div>
           )}
@@ -64,16 +53,16 @@ export function OrgSwitcher({ isCollapsed = false }: { isCollapsed?: boolean }) 
           <div className="px-3 py-2 text-[10px] font-bold text-[var(--color-text-muted)] uppercase tracking-wider">
             Switch Organization
           </div>
-          {MOCK_ORGS.map((org) => (
+          {availableOrgs.map((org) => (
             <button
               key={org.id}
               onClick={() => {
-                setSelectedOrg(org);
+                switchOrganization(org.id);
                 setIsOpen(false);
               }}
               className={cn(
                 'w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors text-left',
-                org.id === selectedOrg.id
+                org.id === currentOrg.id
                   ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)]'
                   : 'text-[var(--color-text-primary)] hover:bg-[var(--color-background)]'
               )}
@@ -85,7 +74,7 @@ export function OrgSwitcher({ isCollapsed = false }: { isCollapsed?: boolean }) 
                   <div className="text-[10px] text-[var(--color-text-muted)]">{org.type}</div>
                 </div>
               </div>
-              {org.id === selectedOrg.id && <Check className="h-4 w-4 text-[var(--color-primary)] flex-shrink-0" />}
+              {org.id === currentOrg.id && <Check className="h-4 w-4 text-[var(--color-primary)] flex-shrink-0" />}
             </button>
           ))}
         </div>

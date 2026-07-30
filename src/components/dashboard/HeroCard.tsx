@@ -1,6 +1,6 @@
 import { Sparkles, CheckCircle2, AlertTriangle, Send, Bell } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
+import { Badge } from '@/shared/components/indicators/Badge';
 
 interface HeroCardProps {
   userName: string;
@@ -74,7 +74,7 @@ export function HeroCard({
 
       </div>
 
-      {/* TrotOS Insights Recommendation (Powered by Needle AI) */}
+      {/* TrotOS Insights Recommendation (Powered by Trot Assistant) */}
       <div className="mt-6 pt-5 border-t border-[var(--color-border)] flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 text-xs">
           <div className="w-6 h-6 rounded-md bg-[var(--color-primary-light)] text-[var(--color-primary)] flex items-center justify-center flex-shrink-0">

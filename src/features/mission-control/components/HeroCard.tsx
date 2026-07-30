@@ -1,6 +1,6 @@
-import { Sparkles, CheckCircle2, AlertTriangle, Send, Bell } from 'lucide-react';
+import { Sparkles, Send, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
+import { StatusBadge } from '@/shared/components/indicators/StatusBadge';
 
 interface HeroCardProps {
   userName: string;
@@ -22,77 +22,80 @@ export function HeroCard({
   const isHealthy = attentionScreens === 0;
 
   return (
-    <div className="relative overflow-hidden rounded-[16px] bg-[var(--color-surface)] border border-[var(--color-border)] border-l-4 border-l-[var(--color-primary)] shadow-[var(--shadow-level-1)] p-6 md:p-8">
+    <div className="relative overflow-hidden rounded-2xl bg-[var(--color-level-3)] border border-[var(--color-border)] shadow-xl p-6 md:p-8 telemetry-grid">
       
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      {/* Subtle Gradient Glow background overlay */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary-glow)] blur-3xl rounded-full pointer-events-none -mr-20 -mt-20 opacity-40" />
+
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
         {/* Left: Greeting & Health Statement */}
         <div className="space-y-3 max-w-2xl">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] tracking-tight">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[var(--color-text-primary)] tracking-tight">
               Good Morning, {userName}.
             </h1>
-            {isHealthy ? (
-              <Badge variant="success" className="gap-1">
-                <CheckCircle2 className="h-3.5 w-3.5" /> Healthy
-              </Badge>
-            ) : (
-              <Badge variant="warning" className="gap-1">
-                <AlertTriangle className="h-3.5 w-3.5" /> Attention Needed
-              </Badge>
-            )}
+            <StatusBadge status={isHealthy ? 'healthy' : 'warning'} label={isHealthy ? 'Fleet Optimal' : 'Attention Needed'} />
           </div>
 
-          <p className="text-sm text-[var(--color-text-secondary)] font-medium">
+          <p className="text-sm text-[var(--color-text-secondary)] font-medium leading-relaxed">
             {isHealthy
-              ? 'All major clusters and displays are operating normally.'
-              : `${attentionScreens} displays or campaigns require operational intervention.`}
+              ? 'All 150 enterprise screen clusters and media channels are operating at peak efficiency.'
+              : `${attentionScreens} displays require active operational intervention.`}
           </p>
 
           {/* Fleet Numbers summary */}
-          <div className="flex items-center gap-4 text-xs font-semibold text-[var(--color-text-primary)] pt-1">
-            <div className="flex items-center gap-1.5 bg-[var(--color-background)] px-3 py-1.5 rounded-lg border border-[var(--color-border)]">
-              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-              <span>{onlineScreens} / {totalScreens} Screens Online</span>
+          <div className="flex items-center gap-3 text-xs font-semibold text-[var(--color-text-primary)] pt-1">
+            <div className="flex items-center gap-2 bg-[var(--color-level-2)] px-3 py-1.5 rounded-xl border border-[var(--color-border)] shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="font-mono text-emerald-400 font-bold">{onlineScreens} / {totalScreens}</span>
+              <span className="text-[var(--color-text-secondary)]">Screens Online</span>
             </div>
-            <div className="flex items-center gap-1.5 bg-[var(--color-background)] px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)]">
-              <span className="h-2 w-2 rounded-full bg-amber-500"></span>
-              <span>{attentionScreens} Need Attention</span>
+            <div className="flex items-center gap-2 bg-[var(--color-level-2)] px-3 py-1.5 rounded-xl border border-[var(--color-border)] text-[var(--color-text-secondary)] shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-amber-400"></span>
+              <span className="font-mono text-amber-400 font-bold">{attentionScreens}</span>
+              <span>Pending Alerts</span>
             </div>
           </div>
         </div>
 
-        {/* Right: Primary Call-to-Action Buttons */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <Button variant="secondary" onClick={onViewAlerts} className="gap-2 text-xs">
-            <Bell className="h-4 w-4" /> View Alerts
-          </Button>
-          <Button variant="primary" onClick={onDeployContent} className="gap-2 text-xs font-semibold">
-            <Send className="h-4 w-4" /> Deploy Content
-          </Button>
+        {/* Right: Trot Assistant Callout & Actions */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0">
+          
+          {/* Trot Assistant Proactive Insight Badge */}
+          <div className="p-3.5 rounded-2xl bg-[var(--color-level-2)] border border-[var(--color-border)] max-w-xs space-y-1.5">
+            <div className="flex items-center gap-2 text-xs font-bold text-[var(--color-primary)]">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Trot Assistant Insight</span>
+            </div>
+            <p className="text-[11px] text-[var(--color-text-secondary)] font-medium">
+              Bandwidth utilization down 14% following automatic H.265 transcoding.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={onDeployContent}
+              className="shadow-[var(--shadow-glow)] font-bold text-xs flex items-center gap-2"
+            >
+              <Send className="w-3.5 h-3.5" />
+              Deploy Schedule
+            </Button>
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={onViewAlerts}
+              className="text-xs font-semibold flex items-center gap-2"
+            >
+              <Bell className="w-3.5 h-3.5" />
+              View Alerts
+            </Button>
+          </div>
+
         </div>
 
-      </div>
-
-      {/* TrotOS Insights Recommendation (Powered by Needle AI) */}
-      <div className="mt-6 pt-5 border-t border-[var(--color-border)] flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 text-xs">
-          <div className="w-6 h-6 rounded-md bg-[var(--color-primary-light)] text-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
-            <Sparkles className="h-3.5 w-3.5" />
-          </div>
-          <div>
-            <span className="font-bold text-[var(--color-text-primary)]">TrotOS Insights: </span>
-            <span className="text-[var(--color-text-secondary)]">
-              Firmware update v2.4 is available for 24 displays in London Terminal 2.
-            </span>
-          </div>
-        </div>
-        <button
-          onClick={onDeployContent}
-          className="text-xs font-semibold text-[var(--color-primary)] hover:underline flex-shrink-0"
-        >
-          Review & Apply &rarr;
-        </button>
       </div>
 
     </div>

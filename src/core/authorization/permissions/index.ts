@@ -1,6 +1,7 @@
 export const Permission = {
   DEVICES: {
     READ: 'DEVICES:READ',
+    CREATE: 'DEVICES:CREATE',
     UPDATE: 'DEVICES:UPDATE',
     COMMAND: 'DEVICES:COMMAND',
     DELETE: 'DEVICES:DELETE',

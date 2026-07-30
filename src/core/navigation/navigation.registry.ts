@@ -13,7 +13,9 @@ import {
   PieChart,
   Building2,
   CreditCard,
-  Settings,
+  Layers,
+  Shield,
+  Terminal,
   type LucideIcon,
 } from 'lucide-react';
 import { Permission, type PermissionKey } from '../authorization/permissions';
@@ -121,11 +123,27 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
     category: 'Marketing',
     requiredPermission: Permission.CAMPAIGNS.READ,
   },
+  {
+    id: 'assignments',
+    title: 'Fleet Assignments',
+    route: '/dashboard/marketing/assignments',
+    icon: Layers,
+    category: 'Marketing',
+    requiredPermission: Permission.CAMPAIGNS.READ,
+  },
+  {
+    id: 'ad-reports',
+    title: 'Campaign Reports',
+    route: '/dashboard/marketing/reports',
+    icon: BarChart3,
+    category: 'Marketing',
+    requiredPermission: Permission.CAMPAIGNS.READ,
+  },
 
   // Analytics
   {
     id: 'reports',
-    title: 'Reports',
+    title: 'Custom Reports',
     route: '/dashboard/analytics/reports',
     icon: BarChart3,
     category: 'Analytics',
@@ -134,8 +152,24 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
   {
     id: 'fleet-insights',
     title: 'Fleet Analytics',
-    route: '/dashboard/analytics/insights',
+    route: '/dashboard/analytics/insights/fleet',
     icon: PieChart,
+    category: 'Analytics',
+    requiredPermission: Permission.ANALYTICS.READ,
+  },
+  {
+    id: 'playback-insights',
+    title: 'Playback Analytics',
+    route: '/dashboard/analytics/insights/playback',
+    icon: Layers,
+    category: 'Analytics',
+    requiredPermission: Permission.ANALYTICS.READ,
+  },
+  {
+    id: 'user-metrics',
+    title: 'User Metrics',
+    route: '/dashboard/analytics/metrics',
+    icon: Users,
     category: 'Analytics',
     requiredPermission: Permission.ANALYTICS.READ,
   },
@@ -143,9 +177,17 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
   // Administration
   {
     id: 'team',
-    title: 'Team',
+    title: 'Team Directory',
     route: '/dashboard/admin/team',
     icon: Users,
+    category: 'Administration',
+    requiredPermission: Permission.USERS.READ,
+  },
+  {
+    id: 'roles',
+    title: 'Roles & Capabilities',
+    route: '/dashboard/admin/roles',
+    icon: Shield,
     category: 'Administration',
     requiredPermission: Permission.USERS.READ,
   },
@@ -166,10 +208,11 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
     requiredPermission: Permission.BILLING.READ,
   },
   {
-    id: 'settings',
-    title: 'Settings',
-    route: '/dashboard/admin/settings',
-    icon: Settings,
+    id: 'audit-log',
+    title: 'Audit Log',
+    route: '/dashboard/admin/audit',
+    icon: Terminal,
     category: 'Administration',
+    requiredPermission: Permission.USERS.READ,
   },
 ];
