@@ -340,28 +340,33 @@ export const TelanganaFleetMap: React.FC = () => {
                 key={tab.id}
                 onClick={() => setSelectedTab(tab)}
                 style={{ left: `${tab.x}%`, top: `${tab.y}%` }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 group transition-all duration-300 z-10 focus:outline-none flex items-center gap-1"
+                className={`absolute -translate-x-1/2 -translate-y-1/2 group transition-all duration-300 focus:outline-none flex items-center gap-1.5 ${
+                  isRed ? 'z-30' : isSelected ? 'z-20' : 'z-10'
+                }`}
               >
-                {/* RED ALERT PIN (Bigger than yellow, prominent attention beacon) */}
+                {/* 🔴 RED DANGER PIN (Prominent, ALWAYS shows error info & alert status) */}
                 {isRed && (
-                  <div className="relative flex items-center">
-                    {/* Controlled Beacon Ring for Red */}
-                    <span className="absolute -inset-1 rounded-full bg-rose-500/40 animate-pulse" />
+                  <div className="relative flex items-center gap-1">
+                    <span className="absolute -inset-1 rounded-full bg-rose-500/50 animate-pulse" />
                     <div
-                      className={`relative flex items-center justify-center p-1 rounded-full bg-rose-600 text-white shadow-md border border-rose-300 transition-transform ${
+                      className={`relative flex items-center justify-center rounded-full bg-rose-600 text-white shadow-lg border border-rose-200 transition-transform ${
                         isSelected ? 'scale-125 ring-2 ring-rose-400' : 'hover:scale-110'
                       }`}
-                      style={{ width: '20px', height: '20px' }}
+                      style={{ width: '22px', height: '22px' }}
                     >
-                      <MapPin className="w-3 h-3 stroke-[2.5]" />
+                      <MapPin className="w-3.5 h-3.5 stroke-[2.5]" />
                     </div>
-                    <span className={`ml-1 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-950/90 text-rose-200 border border-rose-500/40 shadow-sm ${isSelected ? 'block' : 'hidden group-hover:block'}`}>
-                      {tab.code}
-                    </span>
+                    {/* Always Visible Red Warning Tag */}
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-950/95 border border-rose-500/60 shadow-md text-xs font-mono font-bold text-rose-200">
+                      <span>{tab.code}</span>
+                      <span className="px-1 py-0.2 rounded bg-rose-600 text-white text-[9px] uppercase font-sans tracking-wide">
+                        Alert: Low Bat ({tab.battery}%)
+                      </span>
+                    </div>
                   </div>
                 )}
 
-                {/* YELLOW SYNCING/IDLE PIN (Really small, subtle dot) */}
+                {/* 🟡 YELLOW SYNCING/IDLE PIN (Really small 7px dot, tag on hover/select) */}
                 {isYellow && (
                   <div className="relative flex items-center">
                     <div
@@ -376,29 +381,29 @@ export const TelanganaFleetMap: React.FC = () => {
                   </div>
                 )}
 
-                {/* GREEN ACTIVE PIN (Clean compact dot + sleek tag) */}
+                {/* 🟢 GREEN ACTIVE PIN (Clean & compact, info on hover/select to avoid clutter) */}
                 {isActive && (
                   <div className="relative flex items-center gap-1">
                     <div
                       className={`rounded-full bg-emerald-400 border border-emerald-200 shadow-sm transition-transform ${
                         isSelected ? 'scale-125 ring-2 ring-emerald-300 bg-emerald-300' : 'hover:scale-110'
                       }`}
-                      style={{ width: '9px', height: '9px' }}
+                      style={{ width: '8px', height: '8px' }}
                     />
                     <div
-                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-mono font-medium shadow-sm border transition-all ${
+                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-mono font-medium shadow-xs border transition-all ${
                         isSelected
                           ? 'bg-indigo-950 text-white border-indigo-400 ring-1 ring-indigo-400'
                           : 'bg-[#141E2F]/90 text-emerald-300 border-emerald-500/30 hover:border-emerald-400'
                       }`}
                     >
-                      <span className="truncate max-w-[75px]">{tab.code}</span>
+                      <span className="truncate max-w-[70px]">{tab.code}</span>
                     </div>
                   </div>
                 )}
 
                 {/* Hover Tooltip */}
-                <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 hidden group-hover:flex flex-col gap-1 w-48 p-2.5 rounded-xl bg-[#141E2F] border border-[var(--color-border)] shadow-xl text-[11px] pointer-events-none z-30">
+                <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 hidden group-hover:flex flex-col gap-1 w-48 p-2.5 rounded-xl bg-[#141E2F] border border-[var(--color-border)] shadow-xl text-[11px] pointer-events-none z-40">
                   <div className="font-bold text-white truncate">{tab.name}</div>
                   <div className="text-[var(--color-text-muted)] text-[10px]">{tab.vehicle}</div>
                   <div className="flex items-center justify-between text-emerald-400 font-mono text-[10px] mt-1 border-t border-slate-700/50 pt-1">
