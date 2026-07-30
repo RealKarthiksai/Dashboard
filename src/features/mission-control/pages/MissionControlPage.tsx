@@ -4,6 +4,7 @@ import { AlertTimeline } from '../components/AlertTimeline';
 import { ActivityFeed } from '../components/ActivityFeed';
 import { UpcomingSchedule } from '../components/UpcomingSchedule';
 import { QuickActionsGrid } from '../components/QuickActionsGrid';
+import { TelanganaFleetMap } from '../components/TelanganaFleetMap';
 import { MISSION_CONTROL_WIDGETS } from '../widgets/widget.registry';
 import { useAuth } from '@/context/AuthContext';
 import { usePermission } from '@/core/authorization/PermissionContext';
@@ -48,7 +49,12 @@ export function MissionControlPage() {
       {/* 2. Prioritized Quick Actions */}
       <QuickActionsGrid />
 
-      {/* 3. Editorial Asymmetric Grid: Alerts (7 cols) & Activity Feed (5 cols) */}
+      {/* 3. Telangana Live Fleet Roaming Radar Map */}
+      <PermissionGate required={Permission.DEVICES.READ}>
+        <TelanganaFleetMap />
+      </PermissionGate>
+
+      {/* 4. Editorial Asymmetric Grid: Alerts (7 cols) & Activity Feed (5 cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-7">
           <PermissionGate required={Permission.DEVICES.READ}>
