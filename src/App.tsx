@@ -159,6 +159,7 @@ function App() {
                         <Route path="marketing/reports" element={<CampaignReportPage />} />
 
                         {/* Analytics Routes */}
+                        <Route path="insights" element={<Navigate to="/dashboard/analytics/insights/fleet" replace />} />
                         <Route path="analytics/reports" element={<ReportsOverviewPage />} />
                         <Route path="analytics/reports/new" element={<ReportBuilderPage />} />
                         <Route path="analytics/insights/fleet" element={<FleetInsightsPage />} />
