@@ -115,7 +115,7 @@ function App() {
           <OrganizationProvider>
             <FeatureFlagProvider>
               <DensityProvider>
-                <BrowserRouter>
+                <BrowserRouter basename={import.meta.env.BASE_URL}>
                   <ErrorBoundary>
                     <Suspense fallback={<PageLoadingFallback />}>
                       <Routes>
