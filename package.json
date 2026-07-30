@@ -16,7 +16,7 @@
     "deadcode": "ts-prune",
     "audit": "npm audit",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "npx gh-pages -d dist",
     "verify": "npm run typecheck && npm run lint && npm run build && npm run validate:registries && npm run validate:permissions && npm run validate:architecture && npm run circular && npm run deadcode"
   },
   "dependencies": {
