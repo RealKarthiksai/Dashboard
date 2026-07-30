@@ -211,7 +211,7 @@ export const TelanganaFleetMap: React.FC = () => {
                   Telangana Live Fleet Roaming Radar
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   Live GPS Track
                 </span>
               </div>
@@ -331,39 +331,71 @@ export const TelanganaFleetMap: React.FC = () => {
           {/* Interactive Roaming Pins Overlay */}
           {filteredTabs.map((tab) => {
             const isSelected = selectedTab.id === tab.id;
+            const isRed = tab.status === 'warning';
+            const isYellow = tab.status === 'syncing';
+            const isActive = tab.status === 'active';
+
             return (
               <button
                 key={tab.id}
                 onClick={() => setSelectedTab(tab)}
                 style={{ left: `${tab.x}%`, top: `${tab.y}%` }}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 group transition-all duration-500 z-10 focus:outline-none`}
+                className="absolute -translate-x-1/2 -translate-y-1/2 group transition-all duration-300 z-10 focus:outline-none flex items-center gap-1"
               >
-                {/* Pulse Ring for active roaming tab */}
-                <span
-                  className={`absolute -inset-2 rounded-full opacity-75 animate-ping ${
-                    tab.status === 'active'
-                      ? 'bg-emerald-500'
-                      : tab.status === 'syncing'
-                      ? 'bg-amber-500'
-                      : 'bg-rose-500'
-                  }`}
-                />
-                
-                {/* Pin Badge */}
-                <div
-                  className={`relative flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold shadow-lg transition-transform border ${
-                    isSelected
-                      ? 'scale-110 ring-2 ring-indigo-400 bg-indigo-950 text-white border-indigo-400'
-                      : tab.status === 'active'
-                      ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50 hover:scale-105'
-                      : tab.status === 'syncing'
-                      ? 'bg-amber-950/90 text-amber-300 border-amber-500/50 hover:scale-105'
-                      : 'bg-rose-950/90 text-rose-300 border-rose-500/50 hover:scale-105'
-                  }`}
-                >
-                  <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-                  <span className="truncate max-w-[90px]">{tab.code}</span>
-                </div>
+                {/* RED ALERT PIN (Bigger than yellow, prominent attention beacon) */}
+                {isRed && (
+                  <div className="relative flex items-center">
+                    {/* Controlled Beacon Ring for Red */}
+                    <span className="absolute -inset-1 rounded-full bg-rose-500/40 animate-pulse" />
+                    <div
+                      className={`relative flex items-center justify-center p-1 rounded-full bg-rose-600 text-white shadow-md border border-rose-300 transition-transform ${
+                        isSelected ? 'scale-125 ring-2 ring-rose-400' : 'hover:scale-110'
+                      }`}
+                      style={{ width: '20px', height: '20px' }}
+                    >
+                      <MapPin className="w-3 h-3 stroke-[2.5]" />
+                    </div>
+                    <span className={`ml-1 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-950/90 text-rose-200 border border-rose-500/40 shadow-sm ${isSelected ? 'block' : 'hidden group-hover:block'}`}>
+                      {tab.code}
+                    </span>
+                  </div>
+                )}
+
+                {/* YELLOW SYNCING/IDLE PIN (Really small, subtle dot) */}
+                {isYellow && (
+                  <div className="relative flex items-center">
+                    <div
+                      className={`rounded-full bg-amber-400 border border-amber-200 shadow-xs transition-transform ${
+                        isSelected ? 'scale-150 ring-2 ring-amber-300' : 'hover:scale-125'
+                      }`}
+                      style={{ width: '7px', height: '7px' }}
+                    />
+                    <span className={`ml-1.5 text-[9px] font-mono font-semibold px-1 py-0.2 rounded bg-amber-950/90 text-amber-200 border border-amber-500/30 ${isSelected ? 'block' : 'hidden group-hover:block'}`}>
+                      {tab.code}
+                    </span>
+                  </div>
+                )}
+
+                {/* GREEN ACTIVE PIN (Clean compact dot + sleek tag) */}
+                {isActive && (
+                  <div className="relative flex items-center gap-1">
+                    <div
+                      className={`rounded-full bg-emerald-400 border border-emerald-200 shadow-sm transition-transform ${
+                        isSelected ? 'scale-125 ring-2 ring-emerald-300 bg-emerald-300' : 'hover:scale-110'
+                      }`}
+                      style={{ width: '9px', height: '9px' }}
+                    />
+                    <div
+                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-mono font-medium shadow-sm border transition-all ${
+                        isSelected
+                          ? 'bg-indigo-950 text-white border-indigo-400 ring-1 ring-indigo-400'
+                          : 'bg-[#141E2F]/90 text-emerald-300 border-emerald-500/30 hover:border-emerald-400'
+                      }`}
+                    >
+                      <span className="truncate max-w-[75px]">{tab.code}</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Hover Tooltip */}
                 <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 hidden group-hover:flex flex-col gap-1 w-48 p-2.5 rounded-xl bg-[#141E2F] border border-[var(--color-border)] shadow-xl text-[11px] pointer-events-none z-30">
