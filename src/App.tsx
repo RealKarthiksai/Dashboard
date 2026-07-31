@@ -38,6 +38,9 @@ const InventoryPage = lazy(() =>
 const MaintenancePage = lazy(() =>
   import('@/features/fleet/maintenance/pages/MaintenancePage').then((m) => ({ default: m.MaintenancePage }))
 );
+const TechnicianAppPage = lazy(() =>
+  import('@/features/field-operations/technician/pages/TechnicianAppPage').then((m) => ({ default: m.TechnicianAppPage }))
+);
 const MonitoringPage = lazy(() =>
   import('@/features/operations/monitoring/pages/MonitoringPage').then((m) => ({ default: m.MonitoringPage }))
 );
@@ -153,6 +156,7 @@ function App() {
                         <Route path="operations/sites" element={<SiteHierarchyPage />} />
                         <Route path="operations/inventory" element={<InventoryPage />} />
                         <Route path="operations/maintenance" element={<MaintenancePage />} />
+                        <Route path="operations/field-jobs" element={<TechnicianAppPage />} />
                         <Route path="operations/monitoring" element={<MonitoringPage />} />
                         <Route path="operations/alerts" element={<AlertsPage />} />
                         <Route path="operations/deployments" element={<DeploymentsPage />} />

@@ -18,6 +18,7 @@ import {
   Terminal,
   Package,
   Wrench,
+  ClipboardList,
   type LucideIcon,
 } from 'lucide-react';
 import { Permission, type PermissionKey } from '../authorization/permissions';
@@ -78,6 +79,14 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
     title: 'Maintenance & Work Orders',
     route: '/dashboard/operations/maintenance',
     icon: Wrench,
+    category: 'Operations',
+    requiredPermission: Permission.DEVICES.READ,
+  },
+  {
+    id: 'field-jobs',
+    title: 'Field Installation (Tech App)',
+    route: '/dashboard/operations/field-jobs',
+    icon: ClipboardList,
     category: 'Operations',
     requiredPermission: Permission.DEVICES.READ,
   },
