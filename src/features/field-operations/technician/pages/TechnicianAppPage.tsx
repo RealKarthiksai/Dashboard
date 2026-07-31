@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/Button';
 import { MOCK_TECHNICIAN_JOBS } from '../../data/mockTechnicianJobs';
 import { JobWorkflowEngine, type JobAction } from '../../engine/JobWorkflowEngine';
 import type { TechnicianJob } from '../../types';
-import { mockStore } from '@/features/operations/data/MockDataStore';
 
 export function TechnicianAppPage() {
   const [activeTab, setActiveTab] = useState<'jobs' | 'history' | 'profile'>('jobs');
@@ -42,29 +41,18 @@ export function TechnicianAppPage() {
 
     // Multi-entity Cross-Persona Synchronization (Directive #7 & #10)
     if (nextState === 'COMPLETED' || action === 'COMMISSION') {
-      // 1. Update Device status to ONLINE in MockDataStore
       const newDevId = `dev-commissioned-${Date.now()}`;
-      mockStore.devices.unshift({
-        id: newDevId,
-        name: `${activeJob.title.split('—')[0]} (${activeJob.jobCode})`,
-        status: 'online',
-        lastSeen: new Date().toISOString(),
-        organizationId: 'org_acme',
-        organizationName: 'Acme Enterprise Corp',
-        groupName: 'Field Commissioned',
-        tags: ['Field Commissioned', 'Sprint-17'],
-        firmwareVersion: 'v4.2.1-prod',
-        hardwareModel: activeJob.requiredHardwareSku,
-        resolution: '1920x1080',
-        orientation: 'landscape',
-        location: {
-          city: 'Hyderabad',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          coordinates: activeJob.targetCoordinates
-        },
-        createdAt: new Date().toISOString()
-      });
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('device:commissioned', {
+          detail: {
+            id: newDevId,
+            name: `${activeJob.title.split('—')[0]} (${activeJob.jobCode})`,
+            status: 'online',
+            location: activeJob.siteNodeName,
+            sku: activeJob.requiredHardwareSku
+          }
+        }));
+      }
     }
 
     setJobs(prev => prev.map(j => j.id === activeJob.id ? { ...j, state: nextState } : j));
