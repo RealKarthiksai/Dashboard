@@ -29,6 +29,15 @@ const DeviceListPage = lazy(() =>
 const DeviceDetailPage = lazy(() =>
   import('@/features/operations/devices/pages/DeviceDetailPage').then((m) => ({ default: m.DeviceDetailPage }))
 );
+const SiteHierarchyPage = lazy(() =>
+  import('@/features/fleet/sites/pages/SiteHierarchyPage').then((m) => ({ default: m.SiteHierarchyPage }))
+);
+const InventoryPage = lazy(() =>
+  import('@/features/fleet/inventory/pages/InventoryPage').then((m) => ({ default: m.InventoryPage }))
+);
+const MaintenancePage = lazy(() =>
+  import('@/features/fleet/maintenance/pages/MaintenancePage').then((m) => ({ default: m.MaintenancePage }))
+);
 const MonitoringPage = lazy(() =>
   import('@/features/operations/monitoring/pages/MonitoringPage').then((m) => ({ default: m.MonitoringPage }))
 );
@@ -141,6 +150,9 @@ function App() {
                         {/* Operations Routes */}
                         <Route path="operations/devices" element={<DeviceListPage />} />
                         <Route path="operations/devices/:id" element={<DeviceDetailPage />} />
+                        <Route path="operations/sites" element={<SiteHierarchyPage />} />
+                        <Route path="operations/inventory" element={<InventoryPage />} />
+                        <Route path="operations/maintenance" element={<MaintenancePage />} />
                         <Route path="operations/monitoring" element={<MonitoringPage />} />
                         <Route path="operations/alerts" element={<AlertsPage />} />
                         <Route path="operations/deployments" element={<DeploymentsPage />} />
