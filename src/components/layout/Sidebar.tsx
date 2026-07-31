@@ -2,8 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-react';
 import { NAVIGATION_REGISTRY } from '@/core/navigation/navigation.registry';
 import { NAVIGATION_PRESETS } from '@/core/navigation/navigation.presets';
-import { useExperience } from '@/core/experiences/ExperienceProvider';
-import { ASSISTANT_REGISTRY } from '@/core/assistant/assistant.registry';
+import { useWorkspace } from '@/core/workspace/WorkspaceContext';
 import { OrgSwitcher } from './OrgSwitcher';
 import { cn } from '@/utils/cn';
 
@@ -20,11 +19,10 @@ export function Sidebar({
   mobileOpen,
   onCloseMobile,
 }: SidebarProps) {
-  const { activeExperience } = useExperience();
+  const { activeWorkspace, workspaceConfig } = useWorkspace();
 
-  // Resolve current persona's navigation preset
-  const preset = NAVIGATION_PRESETS[activeExperience.navigationPreset] || NAVIGATION_PRESETS.OWNER;
-  const assistantProfile = ASSISTANT_REGISTRY[activeExperience.assistantProfile] || ASSISTANT_REGISTRY.OWNER;
+  // Resolve active workspace navigation preset
+  const preset = NAVIGATION_PRESETS[activeWorkspace] || NAVIGATION_PRESETS.OWNER;
 
   // Build lookup dictionary for NavigationItems
   const navById = Object.fromEntries(NAVIGATION_REGISTRY.map((item) => [item.id, item]));
@@ -45,7 +43,7 @@ export function Sidebar({
                   TrotOS
                 </span>
                 <span className="text-[9px] font-bold text-[var(--color-primary)] tracking-widest uppercase mt-1">
-                  {activeExperience.role.replace(/_/g, ' ')}
+                  {workspaceConfig.label}
                 </span>
               </div>
             )}
@@ -64,7 +62,7 @@ export function Sidebar({
         <OrgSwitcher isCollapsed={collapsed} />
       </div>
 
-      {/* Navigation Links Rendered from Persona Preset */}
+      {/* Navigation Links Rendered from Workspace Preset */}
       <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 custom-scrollbar">
         {preset.map((section, secIdx) => {
           const validItems = section.items.map((id) => navById[id]).filter(Boolean);
@@ -124,7 +122,7 @@ export function Sidebar({
               </div>
               <div className="text-[11px] min-w-0">
                 <span className="font-semibold text-[var(--color-text-primary)] block truncate">Trot Assistant</span>
-                <span className="text-[var(--color-text-muted)] text-[10px] truncate block">{assistantProfile.statusLine}</span>
+                <span className="text-[var(--color-text-muted)] text-[10px] truncate block">{workspaceConfig.statusLine}</span>
               </div>
             </div>
             <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">

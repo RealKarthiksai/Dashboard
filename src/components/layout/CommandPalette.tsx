@@ -3,8 +3,7 @@ import { Search, X, Command, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { NAVIGATION_REGISTRY } from '@/core/navigation/navigation.registry';
 import { usePermission } from '@/core/authorization/PermissionContext';
-import { useExperience } from '@/core/experiences/ExperienceProvider';
-import { SEARCH_REGISTRY } from '@/core/search/search.registry';
+import { useWorkspace } from '@/core/workspace/WorkspaceContext';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -15,9 +14,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const { can } = usePermission();
-  const { activeExperience } = useExperience();
-
-  const searchProfile = SEARCH_REGISTRY[activeExperience.searchProfile] || SEARCH_REGISTRY.OWNER;
+  const { workspaceConfig } = useWorkspace();
 
   // Filter commands dynamically by query & permissions
   const visibleCommands = NAVIGATION_REGISTRY.filter(
@@ -58,7 +55,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
           <Search className="h-5 w-5 text-[var(--color-primary)] shrink-0" />
           <input
             type="text"
-            placeholder={searchProfile.placeholder}
+            placeholder={`Search across ${workspaceConfig.label}...`}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
@@ -114,7 +111,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         <div className="px-4 py-2 bg-[var(--color-level-1)] border-t border-[var(--color-border)] flex items-center justify-between text-[11px] text-[var(--color-text-muted)] font-mono">
           <div className="flex items-center gap-2">
             <Command className="h-3 w-3" />
-            <span>Search Profile: {activeExperience.searchProfile}</span>
+            <span>Active Workspace: {workspaceConfig.label}</span>
           </div>
           <span>ESC to close</span>
         </div>

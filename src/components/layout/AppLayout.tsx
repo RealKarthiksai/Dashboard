@@ -5,7 +5,7 @@ import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
 import { NotificationPanel } from './NotificationPanel';
 import { PermissionDebugPanel } from '../dev/PermissionDebugPanel';
-import { ExperienceProvider } from '@/core/experiences/ExperienceProvider';
+import { WorkspaceProvider } from '@/core/workspace/WorkspaceContext';
 
 export function AppLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -14,7 +14,7 @@ export function AppLayout() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
-    <ExperienceProvider>
+    <WorkspaceProvider>
       <div className="min-h-screen flex bg-[var(--color-background)] font-sans antialiased selection:bg-[var(--color-primary-light)]">
         {/* Skip link for accessibility */}
         <a
@@ -59,6 +59,6 @@ export function AppLayout() {
         {/* Floating Permission Debug Panel */}
         <PermissionDebugPanel />
       </div>
-    </ExperienceProvider>
+    </WorkspaceProvider>
   );
 }
