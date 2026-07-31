@@ -18,7 +18,7 @@ export function DevelopmentRoleSimulator() {
       >
         {ALL_ROLES.map((role) => (
           <option key={role} value={role} className="bg-[var(--color-surface)] text-[var(--color-text-primary)]">
-            {role.replace('_', ' ')}
+            {role.replace(/_/g, ' ')}
           </option>
         ))}
       </select>

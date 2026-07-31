@@ -1,19 +1,17 @@
 import { Permission, type PermissionKey } from '../permissions';
 
 export type RoleName =
-  | 'Owner'
-  | 'Admin'
-  | 'Operations_Manager'
-  | 'Media_Manager'
-  | 'Campaign_Manager'
-  | 'Sales_Manager'
-  | 'Finance_Manager'
-  | 'Analytics_Manager'
-  | 'Support_Engineer'
-  | 'Viewer';
+  | 'Platform_Super_Admin'
+  | 'Organization_Owner'
+  | 'Fleet_Manager'
+  | 'Technician'
+  | 'Content_Manager'
+  | 'Advertiser'
+  | 'Driver'
+  | 'Customer_Support';
 
 export const ROLE_TEMPLATES: Record<RoleName, PermissionKey[]> = {
-  Owner: [
+  Platform_Super_Admin: [
     Permission.DEVICES.READ,
     Permission.DEVICES.UPDATE,
     Permission.DEVICES.COMMAND,
@@ -35,7 +33,7 @@ export const ROLE_TEMPLATES: Record<RoleName, PermissionKey[]> = {
     Permission.USERS.ROLES_UPDATE,
   ],
 
-  Admin: [
+  Organization_Owner: [
     Permission.DEVICES.READ,
     Permission.DEVICES.UPDATE,
     Permission.DEVICES.COMMAND,
@@ -44,14 +42,17 @@ export const ROLE_TEMPLATES: Record<RoleName, PermissionKey[]> = {
     Permission.CONTENT.UPDATE,
     Permission.CAMPAIGNS.READ,
     Permission.CAMPAIGNS.CREATE,
+    Permission.CAMPAIGNS.UPDATE,
     Permission.ANALYTICS.READ,
     Permission.ANALYTICS.EXPORT,
     Permission.BILLING.READ,
+    Permission.BILLING.UPDATE,
     Permission.USERS.READ,
     Permission.USERS.UPDATE,
+    Permission.USERS.ROLES_UPDATE,
   ],
 
-  Operations_Manager: [
+  Fleet_Manager: [
     Permission.DEVICES.READ,
     Permission.DEVICES.UPDATE,
     Permission.DEVICES.COMMAND,
@@ -60,55 +61,36 @@ export const ROLE_TEMPLATES: Record<RoleName, PermissionKey[]> = {
     Permission.USERS.READ,
   ],
 
-  Media_Manager: [
+  Technician: [
+    Permission.DEVICES.READ,
+    Permission.DEVICES.UPDATE,
+    Permission.DEVICES.COMMAND,
+  ],
+
+  Content_Manager: [
     Permission.CONTENT.READ,
     Permission.CONTENT.CREATE,
     Permission.CONTENT.UPDATE,
     Permission.CONTENT.DELETE,
     Permission.DEVICES.READ,
+    Permission.ANALYTICS.READ,
   ],
 
-  Campaign_Manager: [
+  Advertiser: [
     Permission.CAMPAIGNS.READ,
     Permission.CAMPAIGNS.CREATE,
     Permission.CAMPAIGNS.UPDATE,
-    Permission.CAMPAIGNS.DELETE,
-    Permission.CONTENT.READ,
     Permission.ANALYTICS.READ,
   ],
 
-  Sales_Manager: [
-    Permission.CAMPAIGNS.READ,
-    Permission.ANALYTICS.READ,
-    Permission.BILLING.READ,
-  ],
-
-  Finance_Manager: [
-    Permission.BILLING.READ,
-    Permission.BILLING.UPDATE,
-    Permission.ANALYTICS.READ,
-    Permission.ANALYTICS.EXPORT,
-    Permission.CAMPAIGNS.READ,
-  ],
-
-  Analytics_Manager: [
-    Permission.ANALYTICS.READ,
-    Permission.ANALYTICS.EXPORT,
+  Driver: [
     Permission.DEVICES.READ,
-    Permission.CONTENT.READ,
-    Permission.CAMPAIGNS.READ,
   ],
 
-  Support_Engineer: [
+  Customer_Support: [
     Permission.DEVICES.READ,
     Permission.DEVICES.COMMAND,
     Permission.ANALYTICS.READ,
-  ],
-
-  Viewer: [
-    Permission.DEVICES.READ,
-    Permission.CONTENT.READ,
-    Permission.CAMPAIGNS.READ,
-    Permission.ANALYTICS.READ,
+    Permission.USERS.READ,
   ],
 };

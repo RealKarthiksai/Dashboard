@@ -15,9 +15,9 @@ interface PermissionContextType {
 const PermissionContext = createContext<PermissionContextType | undefined>(undefined);
 
 export function PermissionProvider({ children }: { children: ReactNode }) {
-  const [currentRole, setCurrentRole] = useState<RoleName>('Owner');
+  const [currentRole, setCurrentRole] = useState<RoleName>('Organization_Owner');
   const [userPermissions, setUserPermissions] = useState<PermissionKey[]>(
-    ROLE_TEMPLATES['Owner']
+    ROLE_TEMPLATES['Organization_Owner']
   );
 
   const setRole = (role: RoleName) => {
