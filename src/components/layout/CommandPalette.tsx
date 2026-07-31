@@ -3,6 +3,8 @@ import { Search, X, Command, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { NAVIGATION_REGISTRY } from '@/core/navigation/navigation.registry';
 import { usePermission } from '@/core/authorization/PermissionContext';
+import { useExperience } from '@/core/experiences/ExperienceProvider';
+import { SEARCH_REGISTRY } from '@/core/search/search.registry';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -13,6 +15,9 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const { can } = usePermission();
+  const { activeExperience } = useExperience();
+
+  const searchProfile = SEARCH_REGISTRY[activeExperience.searchProfile] || SEARCH_REGISTRY.OWNER;
 
   // Filter commands dynamically by query & permissions
   const visibleCommands = NAVIGATION_REGISTRY.filter(
@@ -41,19 +46,23 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-180">
-      <div className="w-full max-w-xl rounded-2xl bg-[var(--color-level-2)] border border-[var(--color-border)] shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div
+        className="fixed inset-0"
+        onClick={onClose}
+      />
+      <div className="relative w-full max-w-xl bg-[var(--color-level-2)] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden z-10 animate-in zoom-in-95 duration-150">
         
-        {/* Search Input Bar */}
-        <div className="flex items-center px-4 border-b border-[var(--color-border)] bg-[var(--color-level-1)]">
-          <Search className="h-4 w-4 text-[var(--color-primary)] mr-3 flex-shrink-0" />
+        {/* Input Bar */}
+        <div className="p-4 border-b border-[var(--color-border)] flex items-center gap-3">
+          <Search className="h-5 w-5 text-[var(--color-primary)] shrink-0" />
           <input
             type="text"
-            placeholder="Search commands, devices, playlists, campaigns..."
+            placeholder={searchProfile.placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
-            className="w-full py-4 text-sm bg-transparent border-none text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none font-medium"
+            className="w-full py-1 text-sm bg-transparent border-none text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none font-medium"
           />
           <button
             onClick={onClose}
@@ -67,7 +76,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         <div className="max-h-80 overflow-y-auto p-2 space-y-1 custom-scrollbar">
           {visibleCommands.length === 0 ? (
             <div className="p-8 text-center text-xs text-[var(--color-text-muted)]">
-              No matching permission-authorized commands found.
+              No matching authorized results found.
             </div>
           ) : (
             visibleCommands.map((item) => {
@@ -94,26 +103,21 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] font-mono text-[var(--color-text-muted)] opacity-0 group-hover:opacity-100 transition-opacity">
-                    Jump <ArrowRight className="w-3 h-3 text-[var(--color-primary)]" />
-                  </div>
+                  <ArrowRight className="h-4 w-4 text-[var(--color-text-muted)] opacity-0 group-hover:opacity-100 group-hover:text-[var(--color-primary)] transition-all transform group-hover:translate-x-1" />
                 </button>
               );
             })
           )}
         </div>
 
-        {/* Keyboard shortcut legend */}
-        <div className="px-4 py-2.5 bg-[var(--color-level-1)] border-t border-[var(--color-border)] flex items-center justify-between text-[11px] text-[var(--color-text-muted)] font-medium">
-          <div className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-[var(--color-level-3)] border border-[var(--color-border)] rounded">
-              <Command className="h-3 w-3 inline" /> K
-            </kbd>
-            <span>to toggle search</span>
+        {/* Footer */}
+        <div className="px-4 py-2 bg-[var(--color-level-1)] border-t border-[var(--color-border)] flex items-center justify-between text-[11px] text-[var(--color-text-muted)] font-mono">
+          <div className="flex items-center gap-2">
+            <Command className="h-3 w-3" />
+            <span>Search Profile: {activeExperience.searchProfile}</span>
           </div>
-          <span className="text-[10px] font-mono">TrotOS Command Matrix</span>
+          <span>ESC to close</span>
         </div>
-
       </div>
     </div>
   );

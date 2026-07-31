@@ -28,7 +28,7 @@ export interface NavigationItem {
   title: string;
   route: string;
   icon: LucideIcon;
-  category: 'Mission Control' | 'Operations' | 'Content' | 'Marketing' | 'Analytics' | 'Administration';
+  category: 'Mission Control' | 'Operations' | 'Content' | 'Marketing' | 'Analytics' | 'Administration' | 'Specialized';
   requiredPermission?: PermissionKey;
 }
 
@@ -47,6 +47,124 @@ export const NAVIGATION_REGISTRY: NavigationItem[] = [
     route: '/dashboard/insights',
     icon: Activity,
     category: 'Mission Control',
+  },
+
+  // Role Home Dashboards
+  {
+    id: 'fleet-home',
+    title: 'Fleet Health',
+    route: '/dashboard/fleet/health',
+    icon: Activity,
+    category: 'Specialized',
+  },
+  {
+    id: 'content-home',
+    title: 'Content Dashboard',
+    route: '/dashboard/content/home',
+    icon: ImageIcon,
+    category: 'Specialized',
+  },
+  {
+    id: 'support-home',
+    title: 'Support Console',
+    route: '/dashboard/support',
+    icon: Shield,
+    category: 'Specialized',
+  },
+  {
+    id: 'support-tickets',
+    title: 'Open Tickets',
+    route: '/dashboard/support/tickets',
+    icon: Bell,
+    category: 'Specialized',
+  },
+  {
+    id: 'support-orgs',
+    title: 'Search Organizations',
+    route: '/dashboard/support/orgs',
+    icon: Building2,
+    category: 'Specialized',
+  },
+  {
+    id: 'platform-health',
+    title: 'Platform Health',
+    route: '/dashboard/platform',
+    icon: Activity,
+    category: 'Specialized',
+  },
+  {
+    id: 'platform-orgs',
+    title: 'Organizations',
+    route: '/dashboard/platform/orgs',
+    icon: Building2,
+    category: 'Specialized',
+  },
+  {
+    id: 'platform-billing',
+    title: 'Global Revenue',
+    route: '/dashboard/platform/billing',
+    icon: CreditCard,
+    category: 'Specialized',
+  },
+  {
+    id: 'platform-licenses',
+    title: 'License Seats',
+    route: '/dashboard/platform/licenses',
+    icon: Layers,
+    category: 'Specialized',
+  },
+  {
+    id: 'platform-tickets',
+    title: 'Support Escalations',
+    route: '/dashboard/platform/tickets',
+    icon: Bell,
+    category: 'Specialized',
+  },
+
+  // Driver Persona Entries
+  {
+    id: 'driver-vehicle',
+    title: 'My Vehicle',
+    route: '/dashboard/driver',
+    icon: MonitorSmartphone,
+    category: 'Specialized',
+  },
+  {
+    id: 'driver-report',
+    title: 'Report Problem',
+    route: '/dashboard/driver/report',
+    icon: Bell,
+    category: 'Specialized',
+  },
+  {
+    id: 'driver-messages',
+    title: 'Messages',
+    route: '/dashboard/driver/messages',
+    icon: Users,
+    category: 'Specialized',
+  },
+  {
+    id: 'driver-support',
+    title: 'Call Support',
+    route: '/dashboard/driver/support',
+    icon: Shield,
+    category: 'Specialized',
+  },
+
+  // Technician Persona Entries
+  {
+    id: 'tech-history',
+    title: 'History',
+    route: '/dashboard/operations/field-jobs/history',
+    icon: Activity,
+    category: 'Specialized',
+  },
+  {
+    id: 'tech-profile',
+    title: 'Profile',
+    route: '/dashboard/operations/field-jobs/profile',
+    icon: Users,
+    category: 'Specialized',
   },
 
   // Operations

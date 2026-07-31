@@ -18,6 +18,9 @@ import { PageLoadingFallback } from '@/shared/components/feedback/PageLoadingFal
 const MissionControlPage = lazy(() =>
   import('@/features/mission-control').then((m) => ({ default: m.MissionControlPage }))
 );
+const ExperienceDashboard = lazy(() =>
+  import('@/components/layout/ExperienceDashboard').then((m) => ({ default: m.ExperienceDashboard }))
+);
 const ComponentSandbox = lazy(() =>
   import('@/pages/dev/ComponentSandbox').then((m) => ({ default: m.ComponentSandbox }))
 );
@@ -148,7 +151,12 @@ function App() {
                           </ProtectedRoute>
                         }
                       >
+                        <Route path="home" element={<ExperienceDashboard />} />
                         <Route path="overview" element={<MissionControlPage />} />
+                        <Route path="fleet/health" element={<ExperienceDashboard />} />
+                        <Route path="driver/*" element={<ExperienceDashboard />} />
+                        <Route path="support/*" element={<ExperienceDashboard />} />
+                        <Route path="platform/*" element={<ExperienceDashboard />} />
                         
                         {/* Operations Routes */}
                         <Route path="operations/devices" element={<DeviceListPage />} />
@@ -156,12 +164,14 @@ function App() {
                         <Route path="operations/sites" element={<SiteHierarchyPage />} />
                         <Route path="operations/inventory" element={<InventoryPage />} />
                         <Route path="operations/maintenance" element={<MaintenancePage />} />
+                        <Route path="operations/field-jobs/*" element={<TechnicianAppPage />} />
                         <Route path="operations/field-jobs" element={<TechnicianAppPage />} />
                         <Route path="operations/monitoring" element={<MonitoringPage />} />
                         <Route path="operations/alerts" element={<AlertsPage />} />
                         <Route path="operations/deployments" element={<DeploymentsPage />} />
                         
                         {/* Content Routes */}
+                        <Route path="content/home" element={<ExperienceDashboard />} />
                         <Route path="content/media" element={<MediaLibraryPage />} />
                         <Route path="content/playlists" element={<PlaylistsPage />} />
                         <Route path="content/playlists/:id" element={<PlaylistEditorPage />} />

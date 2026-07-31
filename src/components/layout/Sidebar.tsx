@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-react';
 import { NAVIGATION_REGISTRY } from '@/core/navigation/navigation.registry';
-import { usePermission } from '@/core/authorization/PermissionContext';
+import { NAVIGATION_PRESETS } from '@/core/navigation/navigation.presets';
+import { useExperience } from '@/core/experiences/ExperienceProvider';
+import { ASSISTANT_REGISTRY } from '@/core/assistant/assistant.registry';
 import { OrgSwitcher } from './OrgSwitcher';
 import { cn } from '@/utils/cn';
 
@@ -18,15 +20,14 @@ export function Sidebar({
   mobileOpen,
   onCloseMobile,
 }: SidebarProps) {
-  const { can } = usePermission();
+  const { activeExperience } = useExperience();
 
-  // Filter navigation entries dynamically by capability
-  const visibleNav = NAVIGATION_REGISTRY.filter(
-    (item) => !item.requiredPermission || can(item.requiredPermission)
-  );
+  // Resolve current persona's navigation preset
+  const preset = NAVIGATION_PRESETS[activeExperience.navigationPreset] || NAVIGATION_PRESETS.OWNER;
+  const assistantProfile = ASSISTANT_REGISTRY[activeExperience.assistantProfile] || ASSISTANT_REGISTRY.OWNER;
 
-  // Group by category
-  const categories = Array.from(new Set(visibleNav.map((item) => item.category)));
+  // Build lookup dictionary for NavigationItems
+  const navById = Object.fromEntries(NAVIGATION_REGISTRY.map((item) => [item.id, item]));
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-[var(--color-level-1)] border-r border-[var(--color-border)] text-[var(--color-text-primary)] transition-all duration-200 select-none">
@@ -44,7 +45,7 @@ export function Sidebar({
                   TrotOS
                 </span>
                 <span className="text-[9px] font-bold text-[var(--color-primary)] tracking-widest uppercase mt-1">
-                  Enterprise Mission Control
+                  {activeExperience.role.replace(/_/g, ' ')}
                 </span>
               </div>
             )}
@@ -63,19 +64,21 @@ export function Sidebar({
         <OrgSwitcher isCollapsed={collapsed} />
       </div>
 
-      {/* Navigation Links */}
+      {/* Navigation Links Rendered from Persona Preset */}
       <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 custom-scrollbar">
-        {categories.map((category, catIdx) => {
-          const items = visibleNav.filter((item) => item.category === category);
+        {preset.map((section, secIdx) => {
+          const validItems = section.items.map((id) => navById[id]).filter(Boolean);
+          if (validItems.length === 0) return null;
+
           return (
-            <div key={category} className="space-y-1">
-              {catIdx > 0 && <div className="my-3 border-t border-[var(--color-border)]/50" />}
-              {!collapsed && (
+            <div key={secIdx} className="space-y-1">
+              {secIdx > 0 && <div className="my-3 border-t border-[var(--color-border)]/50" />}
+              {!collapsed && section.label && (
                 <div className="px-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
-                  {category}
+                  {section.label}
                 </div>
               )}
-              {items.map((item) => {
+              {validItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <NavLink
@@ -110,21 +113,21 @@ export function Sidebar({
         })}
       </div>
 
-      {/* Footer / TrotOS Engine Status & Collapse Toggle */}
+      {/* Footer / Trot Assistant Status & Collapse Toggle */}
       <div className="p-3 border-t border-[var(--color-border)] flex-shrink-0 space-y-2">
         {!collapsed ? (
           <div className="p-3 rounded-xl bg-[var(--color-level-2)] border border-[var(--color-border)] flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="relative">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="relative shrink-0">
                 <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 absolute -top-0.5 -right-0.5 animate-pulse" />
               </div>
-              <div className="text-[11px]">
-                <span className="font-semibold text-[var(--color-text-primary)] block">Trot Assistant</span>
-                <span className="text-[var(--color-text-muted)] text-[10px]">Active & Syncing</span>
+              <div className="text-[11px] min-w-0">
+                <span className="font-semibold text-[var(--color-text-primary)] block truncate">Trot Assistant</span>
+                <span className="text-[var(--color-text-muted)] text-[10px] truncate block">{assistantProfile.statusLine}</span>
               </div>
             </div>
-            <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+            <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
               LIVE
             </span>
           </div>
