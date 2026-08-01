@@ -1,1 +1,0 @@
-import{pn as e}from"./vendor-react-BYxtG0bp.js";import{s as t}from"./index-D4zd8yxn.js";var n=e();function r({children:e,required:r,hasAny:i,hasAll:a,fallback:o=null}){let{can:s,hasAny:c,hasAll:l}=t(),u=!0;return r&&!s(r)&&(u=!1),i&&!c(i)&&(u=!1),a&&!l(a)&&(u=!1),u?(0,n.jsx)(n.Fragment,{children:e}):(0,n.jsx)(n.Fragment,{children:o})}export{r as t};
